@@ -10,15 +10,22 @@ def main():
 
     while(True):
         ret, frame = cap.read()
-
-        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #converts the coloured frame into grayscale
-        ret, thresh = cv2.threshold(gray_frame, 40, 255, cv2.THRESH_BINARY_INV) #removes all non-black objects from frame
-        contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) #finds all of the contours on the frame
-        cv2.line(frame, (320, 0), (320, 480), (0, 0, 255),2) #draws a red line down the center of the frame
-
         
+        crop_frame = frame[160:320, 0:640]
 
-        drawCircle(contours, frame)
+        gray_frame = cv2.cvtColor(crop_frame, cv2.COLOR_BGR2GRAY) #converts the coloured frame into grayscale
+        blur_frame = cv2.GaussianBlur(gray_frame,(5,5),0) 
+        ret, thresh = cv2.threshold(blur_frame, 40, 255, cv2.THRESH_BINARY_INV) #removes all non-black objects from frame
+        contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) #finds all of the contours on the frame
+
+
+        if(len(contours) > 0):
+            c = max(contours, key=cv2.contourArea) #finds the contour with the largest area
+            cv2.drawContours(crop_frame, c, -1, (0,255,0), 3) #draws the largest contour on the frame
+
+        drawCenter(c, crop_frame)
+
+        cv2.line(frame, (320, 0), (320, 480), (0, 0, 255),2) #draws a red line down the center of the frame 
 
         #iterates through all the contours on the frame
         # if (len(contours)) > 0:
@@ -28,6 +35,7 @@ def main():
         #         cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 0, 255), 2)
 
         cv2.imshow('black', thresh)
+        cv2.imshow('crop_frame', crop_frame)
         cv2.imshow('frame', frame)
 
         if cv2.waitKey(20) & 0xFF == ord('q'):
@@ -38,15 +46,14 @@ def main():
 
 
 
-def drawCircle(contours, frame):
-    if(len(contours) > 0):
-        c = max(contours, key=cv2.contourArea) #finds the contour with the largest area
-        cv2.drawContours(frame, c, -1, (0,255,0), 3) #draws the largest contour on the frame
+def drawCenter(c, frame):
 
-        x, y, w, h = cv2.boundingRect(c) #returns the coresponding values creating a rect around the contour
-        cx = int(x + (w/2))
-        cy = int(y + (h/2))
-        cv2.circle(frame, (cx,cy), 3, (255, 255, 255), 2)
+    x, y, w, h = cv2.boundingRect(c) #returns the coresponding values creating a rect around the contour
+    M = cv2.moments(c)
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+    cv2.line(frame,(cx,0),(cx,720),(255,0,0),1)
+    cv2.line(frame,(0,cy),(1280,cy),(255,0,0),1)
 
 
 
