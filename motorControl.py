@@ -4,7 +4,6 @@ import time
 
 motorL = Motor(14,15)
 motorR = Motor(23,24)
-print('check')
 
 def forward(speed):
     motorL.forward(speed)

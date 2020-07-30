@@ -25,22 +25,16 @@ def main():
                 cv2.drawContours(crop_frame[i], cnt[i], -1, (0,255,0), 4) #draws the largest contour on the frame
                 center.append(drawCenter(c, crop_frame[i])) #stores the center point of each segment to be processed
 
-
+        if(len(center) > 0):
+            follow.findWeightedLine(center)
 
         cv2.line(frame, (320, 0), (320, 480), (0, 0, 255),2) #draws a red line down the center of the frame 
         cv2.imshow('frame', frame) #displays the frame
 
-
         
-
-        print(center[0])
-
 
         if cv2.waitKey(20) & 0xFF == ord('q'):
             break
-
-        
-        
 
     cap.release()
     cv2.destroyAllWindows()

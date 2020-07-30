@@ -7,7 +7,7 @@ cap = cv2.VideoCapture(0)
 while(True):
     ret, frame = cap.read()
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #converts frame to grayscale
+    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #converts frame to grayscale
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) #converts frame to hsl 
 
 
