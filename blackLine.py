@@ -16,7 +16,7 @@ def main():
         cnt = []
         center = []
 
-        #segments the framme into 4 slices (4 segments horizontally from the top)
+        #segments the frame into 4 slices (4 segments horizontally from the top)
         for i in range (4): 
             crop_frame.append(frame[(i*120):((i+1)*120), 0:640])
             cnt.append(findContour(crop_frame[i])) #finds the contours of the cropped image
