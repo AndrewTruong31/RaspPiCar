@@ -1,5 +1,7 @@
 import numpy as np
 import cv2
+import motorControl as motor
+import manualControl as control
 
 
 def main():
@@ -7,9 +9,10 @@ def main():
     cap.set(3,640) #adjusts width of video stream
     cap.set(4,480) #adjusts height of video stream
     cap.set(5,30) #adjusts frame rate of video stream
-
+    motor.setAngle(45)
     while(True): #infinite loop with break condition at bottom
         ret, frame = cap.read() #creates the frame with the camera
+        frame = cv2.flip(frame, -1)
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #converts the coloured frame into grayscale
         blur_frame = cv2.GaussianBlur(gray_frame,(5,5),0) 
@@ -30,17 +33,20 @@ def main():
         if(w_min > h_min and ang < 0):
             ang = 90 + ang
 
-
         ang = int(ang)
         box = cv2.boxPoints(small_box)
         box = np.int0(box)
         cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
         cv2.putText(frame, str(ang), (10,40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
+        if(ang > 0):
+            print("turn R", end="\r", flush=True)
+        elif(ang < 0 ):
+            print("turn L", end="\r", flush=True)
         cv2.imshow('frame', frame)
 
         if cv2.waitKey(20) & 0xFF == ord('q'):
-                break
+            break
 
     cap.release()
     cv2.destroyAllWindows()
