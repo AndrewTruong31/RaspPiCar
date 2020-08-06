@@ -10,6 +10,7 @@ def main():
     cap.set(4,480) #adjusts height of video stream
     cap.set(5,30) #adjusts frame rate of video stream
     motor.setAngle(45)
+
     while(True): #infinite loop with break condition at bottom
         ret, frame = cap.read() #creates the frame with the camera
         frame = cv2.flip(frame, -1)
@@ -43,6 +44,7 @@ def main():
             print("turn R", end="\r", flush=True)
         elif(ang < 0 ):
             print("turn L", end="\r", flush=True)
+            
         cv2.imshow('frame', frame)
 
         if cv2.waitKey(20) & 0xFF == ord('q'):

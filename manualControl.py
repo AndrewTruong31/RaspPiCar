@@ -4,6 +4,13 @@ from pynput import keyboard
 
 angle = 0
 
+def on_release(key):
+    try:
+        if key.char in ['w', 'a', 's', 'd']:
+            motor.stop()
+    except:
+        k = key.names
+
 def on_press(key):
     global angle
     if key == keyboard.Key.esc:
@@ -14,13 +21,13 @@ def on_press(key):
         k = key.name  # other keys
 
     if (k == 'w'):
-        motor.forward(1)
+        motor.forward(0.25)
     elif (k == 's'):
-        motor.backward(1)
+        motor.backward(0.25)
     elif (k == 'a'):
-        motor.left(1)
+        motor.left(0.25)
     elif (k == 'd'):
-        motor.right(1)
+        motor.right(0.25)
     elif (k == 'up'):
         angle += 2
         if(angle > 120):
@@ -34,7 +41,8 @@ def on_press(key):
 
 
 listener = keyboard.Listener(
-    on_press=on_press)
+    on_press=on_press,
+    on_release=on_release)
 listener.start()
     
 
