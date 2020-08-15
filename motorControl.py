@@ -11,8 +11,9 @@ pi = pigpio.pi()
 
 def setAngle(angle):
     #angle comes in as 0-120
-    conv = ((angle/120) * 1200) + 900
-    pi.set_servo_pulsewidth(18, conv) # safe anti-clockwise
+    #pulsewidth is between 900 - 2100 us
+    conv = ((angle/120) * 1200) + 900 # + 900 to account for the min of the pulsewidth
+    pi.set_servo_pulsewidth(18, conv)
 
 def forward(speed):
     motorL.forward(speed)
@@ -30,9 +31,21 @@ def right(speed):
     motorL.forward(speed) 
     motorR.backward(speed)
 
-def dynamic(speedL, speedR):
+def dynamicForward(speedL, speedR):
     motorL.forward(speedL)
     motorR.forward(speedR)
+
+def dynamicBackward(speedL, speedR):
+    motorL.backward(speedL)
+    motorR.backward(speedR)
+
+def dynamicLeft(speedL, speedR):
+    motorL.backward(speedL)
+    motorR.forward(speedR)
+
+def dynamicRight(speedL, speedR):
+    motorL.forward(speedL)
+    motorR.backward(speedR)
 
 def stop():
     motorL.stop()

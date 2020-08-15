@@ -2,14 +2,14 @@ import motorControl as motor
 import time
 from pynput import keyboard
 
-angle = 0
+angle = 40
 
 def on_release(key):
     try:
         if key.char in ['w', 'a', 's', 'd']:
             motor.stop()
     except:
-        k = key.names
+        k = key.name
 
 def on_press(key):
     global angle
@@ -25,9 +25,9 @@ def on_press(key):
     elif (k == 's'):
         motor.backward(0.25)
     elif (k == 'a'):
-        motor.left(0.25)
+        motor.left(0.5)
     elif (k == 'd'):
-        motor.right(0.25)
+        motor.right(0.5)
     elif (k == 'up'):
         angle += 2
         if(angle > 120):
@@ -35,8 +35,8 @@ def on_press(key):
         motor.setAngle(angle)
     elif (k == 'down'):
         angle -= 2
-        if(angle < 0):
-            angle = 0
+        if(angle < 36):
+            angle = 36
         motor.setAngle(angle)
 
 
