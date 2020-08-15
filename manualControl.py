@@ -2,8 +2,6 @@ import motorControl as motor
 import time
 from pynput import keyboard
 
-angle = 40
-
 def on_release(key):
     try:
         if key.char in ['w', 'a', 's', 'd']:
@@ -12,7 +10,7 @@ def on_release(key):
         k = key.name
 
 def on_press(key):
-    global angle
+    angle = motor.getAngle()
     if key == keyboard.Key.esc:
         return False  # stop listener
     try:
@@ -35,10 +33,9 @@ def on_press(key):
         motor.setAngle(angle)
     elif (k == 'down'):
         angle -= 2
-        if(angle < 36):
-            angle = 36
+        if(angle < 32):
+            angle = 32
         motor.setAngle(angle)
-
 
 listener = keyboard.Listener(
     on_press=on_press,
