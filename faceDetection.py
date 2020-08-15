@@ -5,7 +5,8 @@ import motorControl as motor
 
 def main():
     face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
-    profileface_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_profileface.xml')
+    # profileface_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_profileface.xml')
+    test_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_upperbody.xml')
     cap = cv2.VideoCapture(0)
     motor.setAngle(90)
 
@@ -15,10 +16,14 @@ def main():
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
 
-        if(len(faces) <= 0):
-            faces = profileface_cascade.detectMultiScale(cv2.flip(gray, 1) ,scaleFactor=1.5, minNeighbors=5)
-        if(len(faces) <= 0):
-            faces = profileface_cascade.detectMultiScale(gray ,scaleFactor=1.5, minNeighbors=5)
+        # if(len(faces) <= 0):
+        #     faces = profileface_cascade.detectMultiScale(cv2.flip(gray, 1) ,scaleFactor=1.5, minNeighbors=5)
+        #     if(len(faces) > 0):
+        #         faces[0] = 640 - faces[0]
+            
+        # if(len(faces) <= 0):
+        #     faces = profileface_cascade.detectMultiScale(gray ,scaleFactor=1.5, minNeighbors=5)
+
 
         for(x, y, w, h) in faces:
             # print(x,y,w,h)

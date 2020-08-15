@@ -33,8 +33,8 @@ def on_press(key):
         motor.setAngle(angle)
     elif (k == 'down'):
         angle -= 2
-        if(angle < 32):
-            angle = 32
+        if(angle < 14):
+            angle = 14
         motor.setAngle(angle)
 
 listener = keyboard.Listener(
