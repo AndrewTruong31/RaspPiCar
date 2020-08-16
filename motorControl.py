@@ -20,7 +20,6 @@ def setAngle(ang):
     if(angle < 32):
         angle = 32
     #pulsewidth is between 900 - 2100 us
-    angle = ang
     conv = ((angle/120) * 1200) + 900 # + 900 to account for the min of the pulsewidth
     pi.set_servo_pulsewidth(18, conv)
 
@@ -36,38 +35,50 @@ def getAngle():
 def forward(speed):
     motorL.forward(speed)
     motorR.forward(speed)
+    pulse()
 
 def backward(speed):
     motorL.backward(speed)
     motorR.backward(speed)
+    pulse()
 
 def left(speed):
     motorL.backward(speed)
     motorR.forward(speed)
+    pulse()
 
 def right(speed):
     motorL.forward(speed) 
     motorR.backward(speed)
+    pulse()
 
 def dynamicForward(speedL, speedR):
     motorL.forward(speedL)
     motorR.forward(speedR)
+    pulse()
 
 def dynamicBackward(speedL, speedR):
     motorL.backward(speedL)
     motorR.backward(speedR)
+    pulse()
 
 def dynamicLeft(speedL, speedR):
     motorL.backward(speedL)
     motorR.forward(speedR)
+    pulse()
 
 def dynamicRight(speedL, speedR):
     motorL.forward(speedL)
     motorR.backward(speedR)
+    pulse()
 
 def stop():
     motorL.stop()
     motorR.stop()
+
+def pulse():
+    time.sleep(0.15)
+    stop()
 
 def motorVals():
     print(" L: " + str(motorL.value) + "    R: " + str(motorR.value), end="\r", flush=True)

@@ -27,15 +27,9 @@ def on_press(key):
     elif (k == 'd'):
         motor.right(0.5)
     elif (k == 'up'):
-        angle += 2
-        if(angle > 120):
-            angle = 120
-        motor.setAngle(angle)
+        motor.tilt(2)
     elif (k == 'down'):
-        angle -= 2
-        if(angle < 14):
-            angle = 14
-        motor.setAngle(angle)
+        motor.tilt(-2)
 
 listener = keyboard.Listener(
     on_press=on_press,
